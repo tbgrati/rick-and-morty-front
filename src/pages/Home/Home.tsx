@@ -12,7 +12,7 @@ export const HomePage = () => {
     return (
         <div className="flex flex-col items-center py-6 gap-4 w-1/2 mx-auto">
             <div className="text-lg">Search bar</div>
-            <div className="w-full flex flex-col gap-y-3">
+            <div className="w-full flex flex-col gap-y-6">
                 {characters?.map((character: Character) => (
                     <ListItem
                         key={character.id}
@@ -21,7 +21,8 @@ export const HomePage = () => {
                         name={character.name}
                         origin={character.origin.name}
                         status={character.status}
-                        type={character.type || "Unknown"}
+                        species={character.species}
+                        type={character.type}
                     />
                 ))}
             </div>
