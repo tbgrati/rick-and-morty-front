@@ -2,7 +2,7 @@ import { useState } from "react";
 import {useGetAllCharacters} from "../../modules/api/hooks/useGetAllCharacters.ts";
 import {ArrowIcon} from "../../modules/core/icons/ArrowIcon.tsx";
 import IconButton from "../../modules/components/iconButton/IconButton.tsx";
-import {ListItem} from "../../modules/components/listItem/ListItem.tsx";
+import {CharacterListItem} from "../../modules/components/characterListItem/CharacterListItem.tsx";
 
 
 export const HomePage = () => {
@@ -26,8 +26,9 @@ export const HomePage = () => {
 
             <div className="w-full flex flex-col gap-y-6">
                 {characters?.map((character) => (
-                    <ListItem
+                    <CharacterListItem
                         key={character.id}
+                        url={character.url}
                         episodes={character.episode}
                         image={character.image}
                         name={character.name}

@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary-500: rgb(39 43 51);
-    --color-primary-400: rgb(64,60,68);
+  --color-primary-400: #424549;
+  --color-primary-500: #36393e;
+  --color-primary-600: #282b30;
+  --color-primary-700: #1e2124;
+  --color-ram-blue-300: #53ddf8;
+  --color-ram-blue-400: #22d4f6;
+  --color-ram-blue-500: #09badd;
+  --color-ram-blue-600: #0791ac;
+  --color-ram-blue-700: #05677b;
+  --color-ram-blue-800: #033e4a;
+  --color-ram-green-400: #77b564;
+  --color-ram-green-500: #69ad53;
+  --color-ram-green-600: #5e9b4a;
+  --color-ram-green-700: #49793a;
 }
-
-
