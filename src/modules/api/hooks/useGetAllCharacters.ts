@@ -1,17 +1,19 @@
-import {useGet} from "./useGet.ts";
-import {getAllCharacters} from "../utils/routes.ts";
-import {Character} from "../../types/character.ts";
+import { useGet } from "./useGet.ts";
+import { getAllCharacters } from "../utils/routes.ts";
+import { Character } from "../../types/character.ts";
 
 export const useGetAllCharacters = (page: number) => {
-    const { data, loading, error } = useGet<{ info: { pages: number; next?: string; prev?: string }; results: Character[] }>({
-        path: `/character/?page=${page}`
-    });
+  const { data, loading, error } = useGet<{
+    info: { pages: number; next?: string; prev?: string };
+    results: Character[];
+  }>({
+    path: `/${getAllCharacters}/?page=${page}`,
+  });
 
-    return {
-        characters: data?.results || [],
-        totalPages: data?.info?.pages || 1,
-        loading,
-        error
-    };
+  return {
+    characters: data?.results || [],
+    totalPages: data?.info?.pages || 1,
+    loading,
+    error,
+  };
 };
-
