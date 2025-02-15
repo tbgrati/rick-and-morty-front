@@ -1,6 +1,6 @@
 import { useGet } from "./useGet.ts";
 import { getAllCharacters } from "../utils/routes.ts";
-import { Character } from "../../types/character.ts";
+import { Character } from "../../types/Character.ts";
 
 export const useGetAllCharacters = (page: number) => {
   const { data, loading, error } = useGet<{
