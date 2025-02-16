@@ -1,5 +1,5 @@
 import { useGet } from "./useGet.ts";
-import { Character } from "../../types/Character.ts";
+import { Character } from "../../core/types/Character.ts";
 
 export const useGetMultipleCharacters = (characters: string[]) => {
   const characterIds = characters.map((ep) => ep.split("/").pop()).join(",");

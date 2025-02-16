@@ -1,4 +1,4 @@
-import { Episode } from "../../types/Episode.ts";
+import { Episode } from "../../core/types/Episode.ts";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

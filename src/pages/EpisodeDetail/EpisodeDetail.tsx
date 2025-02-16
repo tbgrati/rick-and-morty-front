@@ -4,6 +4,7 @@ import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultiple
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Header } from "../../modules/components/header/Header.tsx";
+import { Loader } from "../../modules/components/loader/Loader.tsx";
 
 export const EpisodeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +42,9 @@ export const EpisodeDetailPage = () => {
           </h2>
           <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
             {characterLoading ? (
-              <span>Loading...</span>
+              <span>
+                <Loader />
+              </span>
             ) : characterError ? (
               <span>Error: {characterError}</span>
             ) : (
