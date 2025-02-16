@@ -1,13 +1,28 @@
 import { useState } from "react";
-import {useGetAllCharacters} from "../../modules/api/hooks/useGetAllCharacters.ts";
+import {useGetFilteredCharacters} from "../../modules/api/hooks/useGetFilteredCharacters.ts";
 import {ArrowIcon} from "../../modules/core/icons/ArrowIcon.tsx";
 import IconButton from "../../modules/components/iconButton/IconButton.tsx";
 import {CharacterListItem} from "../../modules/components/characterListItem/CharacterListItem.tsx";
+import {SearchBar} from "../../modules/components/searchBar/SearchBar.tsx";
+import {useSearchParams} from "react-router-dom";
 
 
 export const HomePage = () => {
+    const [searchParams] = useSearchParams();
+    const queryName = searchParams.get("name") || "";
+
     const [page, setPage] = useState(1);
-    const { characters, loading, error, totalPages } = useGetAllCharacters(page);
+    const [searchTerm, setSearchTerm] = useState(queryName);
+
+    const { characters, loading, error, totalPages } = useGetFilteredCharacters(page, {
+        name: searchTerm,
+    });
+
+    const handleSearch = (term: string) => {
+        if (term.trim() === "") return;
+        setSearchTerm(term);
+        setPage(1);
+    };
 
     const handleNext = () => {
         if (page < totalPages) setPage(page + 1);
@@ -18,30 +33,42 @@ export const HomePage = () => {
     };
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="flex flex-col items-center py-6 gap-4 w-1/2 mx-auto">
-            <div className="text-lg">Search bar</div>
+            <div>
+                <SearchBar onSearch={handleSearch}/>
+            </div>
 
             <div className="w-full flex flex-col gap-y-6">
-                {characters?.map((character) => (
-                    <CharacterListItem
-                        key={character.id}
-                        url={character.url}
-                        episodes={character.episode}
-                        image={character.image}
-                        name={character.name}
-                        origin={character.origin.name}
-                        status={character.status}
-                        species={character.species}
-                        type={character.type}
-                    />
-                ))}
+                {/* The API returns an error message when no results are found */}
+                {error ? (
+                    <div className="text-center text-lg font-semibold text-gray-600 mt-5">
+                        No characters found
+                    </div>
+                ) : characters && characters.length > 0 ? (
+                    characters.map((character) => (
+                        <CharacterListItem
+                            key={character.id}
+                            url={character.url}
+                            episodes={character.episode}
+                            image={character.image}
+                            name={character.name}
+                            origin={character.origin.name}
+                            status={character.status}
+                            species={character.species}
+                            type={character.type}
+                        />
+                    ))
+                ) : (
+                    <div className="text-center text-lg font-semibold text-gray-600 mt-5">
+                        No characters found
+                    </div>
+                )}
             </div>
 
             {/* Pagination Controls */}
-            <div className="flex gap-4 items-center mt-6">
+            {error? null : <div className="flex gap-4 items-center mt-6">
                 <IconButton
                     icon={
                         <div style={{ transform: "rotate(180deg)" }}>
@@ -65,7 +92,7 @@ export const HomePage = () => {
                     onClick={handleNext}
                     disabled={page === totalPages}
                 />
-            </div>
+            </div>}
         </div>
     );
 };

@@ -3,7 +3,6 @@
 :root {
   background-color: #282b30;
   color: rgb(255, 255, 255);
-  font-family: "Inter", sans-serif;
 }
 
 .scrollbar::-webkit-scrollbar {
