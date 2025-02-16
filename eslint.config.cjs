@@ -17,7 +17,7 @@ module.exports = [
     },
     settings: {
       react: {
-        version: "detect", // Auto-detects React version
+        version: "detect",
       },
     },
   },
