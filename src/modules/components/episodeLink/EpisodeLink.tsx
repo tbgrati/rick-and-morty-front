@@ -1,27 +1,25 @@
-import {useGetEpisode} from "../../api/hooks/useGetEpisode.ts";
+import { Episode } from "../../types/Episode.ts";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
-    episodeUrl: string;
+  episode: Episode;
 };
 
-export const EpisodeLink = ({ episodeUrl }: Props) => {
-    const extracted = episodeUrl.split("/api")[1];
-    const { episode, loading, error } = useGetEpisode(extracted)
+export const EpisodeLink = ({ episode }: Props) => {
+  const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate(`/episode/${episode.id}`);
+  };
 
-    if (loading) return <span className="text-sm text-gray-400">Loading...</span>;
-    if (error) return <span className="text-sm text-red-400">Error</span>;
-
-    return (
-        <div>
-            <a
-                href={episodeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-400 hover:underline"
-            >
-                {episode?.name} ({episode?.episode})
-            </a>
-        </div>
-    );
+  return (
+    <div>
+      <button
+        onClick={handleNavigate}
+        className="text-sm text-blue-400 font-semibold hover:text-orange-500 text-left hover:cursor-pointer"
+      >
+        {episode.name} ({episode.episode})
+      </button>
+    </div>
+  );
 };

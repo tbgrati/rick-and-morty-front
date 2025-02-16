@@ -7,7 +7,7 @@ const iconButtonVariant = cva(
     {
         variants: {
             variant: {
-                primary: "border-4 border-black bg-transparent hover:scale-110",
+                primary: "border-black bg-ram-blue-600 hover:scale-110 hover:bg-ram-blue-700 hover:cursor-pointer",
                 disabled: "bg-gray-400 opacity-50 cursor-not-allowed",
             },
             size: {

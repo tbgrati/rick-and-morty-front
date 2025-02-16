@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "format": "prettier --write .",
     "preview": "vite preview",
     "prepare": "husky install"
   },
@@ -39,9 +40,9 @@
     "vite": "^6.1.0"
   },
   "lint-staged": {
-    "*.{ts,js}": "eslint --cache --fix",
-    "*.{ts,js,css,md}": "prettier --write",
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "src/**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
