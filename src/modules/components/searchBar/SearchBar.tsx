@@ -1,38 +1,39 @@
-import {useState} from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
-    onSearch: (term: string) => void;
-    searchOnKeyDown?: boolean; // Optional prop to control search behavior
+  onSearch: (term: string) => void;
+  searchOnKeyDown?: boolean; // Enables search after user stops typing
 }
 
 export const SearchBar = ({ onSearch, searchOnKeyDown = true }: Props) => {
-    const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-    // This will handle the keypress event for Enter key
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter") {
-            onSearch(searchTerm);
-        }
-    };
+  useEffect(() => {
+    if (searchOnKeyDown) {
+      const timeoutId = setTimeout(() => {
+        onSearch(searchTerm);
+      }, 500);
 
-    // This handles search on every keystroke
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-        if (searchOnKeyDown) {
-            onSearch(e.target.value);
-        }
-    };
+      return () => clearTimeout(timeoutId);
+    }
+  }, [searchTerm, onSearch]);
 
-    return (
-        <div className="w-full">
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={handleChange}
-                onKeyDown={handleKeyPress}
-                placeholder="🔎 Search..."
-                className="w-full px-4 py-2 text-gray-900 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-200"
-            />
-        </div>
-    );
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearch(searchTerm);
+    }
+  };
+
+  return (
+    <div className="w-full">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="🔎 Search..."
+        className="w-full px-4 py-2 text-gray-900 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-gray-200"
+      />
+    </div>
+  );
 };
