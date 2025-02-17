@@ -103,7 +103,7 @@ export const HomePage = () => {
                     episodes={character.episode}
                     image={character.image}
                     name={character.name}
-                    origin={character.origin.name}
+                    origin={character.origin}
                     status={character.status}
                     species={character.species}
                     type={character.type}
@@ -115,7 +115,7 @@ export const HomePage = () => {
                     episodes={character.episode}
                     image={character.image}
                     name={character.name}
-                    origin={character.origin.name}
+                    origin={character.origin}
                     status={character.status}
                     species={character.species}
                     type={character.type}

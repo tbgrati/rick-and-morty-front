@@ -6,7 +6,9 @@ import { Episode } from "../../modules/core/types/Episode.ts";
 import { EpisodeListItem } from "../../modules/components/episodeListItem/EpisodeListItem.tsx";
 import { Header } from "../../modules/components/header/Header.tsx";
 import { Loader } from "../../modules/components/loader/Loader.tsx";
+import { LocationLink } from "../../modules/components/locationLink/LocationLink.tsx";
 
+type LocationType = { name: string; url: string | null };
 export const CharacterDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const url = `/character/${id}`;
@@ -16,6 +18,20 @@ export const CharacterDetailPage = () => {
     loading: loadingEpisode,
     error: errorEpisode,
   } = useGetMultipleEpisodes(character?.episode || []);
+
+  const getDetailValue = (
+    label: string,
+    value: string | LocationType | null | undefined,
+  ) => {
+    if (label === "ORIGIN" || label === "LOCATION") {
+      return typeof value === "object" && value?.name ? (
+        <LocationLink location={{ name: value.name, url: value.url ?? "" }} />
+      ) : (
+        "Unknown"
+      );
+    }
+    return value || "Unknown";
+  };
 
   useEffect(() => {
     if (character?.name) {
@@ -28,7 +44,7 @@ export const CharacterDetailPage = () => {
   return (
     <div>
       <Header />
-      <div className="flex flex-col w-3/5 items-center mx-auto py-10 bg-primary-500  border-ram-blue-700 gap-y-6 rounded-lg mt-10">
+      <div className="flex flex-col w-3/5 items-center mx-auto py-10 bg-primary-500 border-ram-blue-700 rounded-lg mt-10 px-4">
         {/* Title Section */}
         {loading ? (
           <Loader />
@@ -40,7 +56,7 @@ export const CharacterDetailPage = () => {
               </h1>
             </div>
             {/* Content Section: Episodes & Details */}
-            <div className="flex w-full px-6">
+            <div className="flex w-full">
               {/* Left Section: Episodes */}
               <div className="flex-1">
                 <div className="flex flex-col">
@@ -90,7 +106,8 @@ export const CharacterDetailPage = () => {
                         label: "TYPE",
                         value: character?.type ? character.type : "Normal",
                       },
-                      { label: "ORIGIN", value: character?.origin?.name },
+                      { label: "ORIGIN", value: character?.origin },
+                      { label: "LOCATION", value: character?.location },
                     ].map(({ label, value }, index) => (
                       <div
                         key={label}
@@ -102,7 +119,7 @@ export const CharacterDetailPage = () => {
                           {label}
                         </span>
                         <span className="col-span-2 px-4 py-2">
-                          {value || "Unknown"}
+                          {getDetailValue(label, value)}
                         </span>
                       </div>
                     ))}

@@ -3,6 +3,8 @@ import { EpisodeLink } from "../episodeLink/EpisodeLink.tsx";
 import { Episode } from "../../core/types/Episode.ts";
 import { useGetMultipleEpisodes } from "../../api/hooks/useGetMultipleEpisodes.ts";
 import { Loader } from "../loader/Loader.tsx";
+import { LocationLink } from "../locationLink/LocationLink.tsx";
+import { StatusChip } from "../statusChip/StatusChip.tsx";
 
 type Props = {
   url: string;
@@ -11,7 +13,10 @@ type Props = {
   status: string;
   species: string;
   type: string;
-  origin: string;
+  origin: {
+    name: string;
+    url: string;
+  };
   episodes: string[];
 };
 
@@ -44,25 +49,14 @@ export const CharacterListItem = ({
           <Link to={`/character/${id}`}>
             <h1 className="font-bold text-2xl hover:text-orange-500">{name}</h1>
           </Link>
-          <h2 className="text-sm flex items-center font-semibold">
-            <span
-              className={`inline-block w-2 h-2 mr-2 rounded-full ${
-                status.toLowerCase() === "alive"
-                  ? "bg-green-500"
-                  : status.toLowerCase() === "dead"
-                    ? "bg-red-500"
-                    : "bg-gray-500"
-              }`}
-            ></span>
-            {status}
-          </h2>
+          <StatusChip status={status} />
           <div className="flex flex-row gap-x-1">
             <h2 className="text-sm text-gray-300 font-semibold">Type: </h2>
             <h2 className="text-sm">{type || species}</h2>
           </div>
           <div className="flex flex-row gap-x-1">
             <h2 className="text-sm text-gray-300 font-semibold">Origin: </h2>
-            <h2 className="text-sm">{origin}</h2>
+            <LocationLink location={origin} className="text-sm font-semibold" />
           </div>
         </div>
       </div>
