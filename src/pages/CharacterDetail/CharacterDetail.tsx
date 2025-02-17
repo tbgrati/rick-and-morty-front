@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useGetCharacter } from "../../modules/api/hooks/useGetCharacter.ts";
 import { useParams } from "react-router-dom";
 import { useGetMultipleEpisodes } from "../../modules/api/hooks/useGetMultipleEpisodes.ts";
@@ -22,15 +22,16 @@ export const CharacterDetailPage = () => {
   const getDetailValue = (
     label: string,
     value: string | LocationType | null | undefined,
-  ) => {
+  ): ReactNode => {
     if (label === "ORIGIN" || label === "LOCATION") {
-      return typeof value === "object" && value?.name ? (
-        <LocationLink location={{ name: value.name, url: value.url ?? "" }} />
-      ) : (
-        "Unknown"
-      );
+      if (value && typeof value === "object" && "name" in value && value.name) {
+        return (
+          <LocationLink location={{ name: value.name, url: value.url ?? "" }} />
+        );
+      }
+      return "Unknown";
     }
-    return value || "Unknown";
+    return typeof value === "string" ? value : "Unknown";
   };
 
   useEffect(() => {
