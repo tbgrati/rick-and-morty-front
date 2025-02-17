@@ -61,7 +61,7 @@ export const EpisodeDetailPage = () => {
                         episodes={character.episode}
                         image={character.image}
                         name={character.name}
-                        origin={character.origin?.name || "Unknown"}
+                        origin={character.origin}
                         status={character.status}
                         species={character.species}
                         type={character.type}

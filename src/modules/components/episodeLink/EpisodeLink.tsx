@@ -1,25 +1,20 @@
 import { Episode } from "../../core/types/Episode.ts";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type Props = {
   episode: Episode;
+  className?: string;
 };
 
-export const EpisodeLink = ({ episode }: Props) => {
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate(`/episode/${episode.id}`);
-  };
-
+export const EpisodeLink = ({ episode, className }: Props) => {
   return (
     <div>
-      <button
-        onClick={handleNavigate}
-        className="text-sm text-blue-400 font-semibold hover:text-orange-500 text-left hover:cursor-pointer"
+      <Link
+        to={`/episode/${episode.id}`}
+        className={`text-sm text-blue-400 font-semibold hover:text-orange-500 text-left hover:cursor-pointer ${className}`}
       >
         {episode.name} ({episode.episode})
-      </button>
+      </Link>
     </div>
   );
 };
