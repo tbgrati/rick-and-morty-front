@@ -1,5 +1,5 @@
 import { useGet } from "./useGet.ts";
-import { Episode } from "../../types/Episode.ts";
+import { Episode } from "../../core/types/Episode.ts";
 
 export const useGetMultipleEpisodes = (episodes: string[]) => {
   const episodeIds = episodes.map((ep) => ep.split("/").pop()).join(",");

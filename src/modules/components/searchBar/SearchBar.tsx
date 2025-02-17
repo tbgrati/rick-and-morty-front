@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 
 interface Props {
+  intialValue?: string;
   onSearch: (term: string) => void;
   searchOnKeyDown?: boolean; // Enables search after user stops typing
 }
 
-export const SearchBar = ({ onSearch, searchOnKeyDown = true }: Props) => {
-  const [searchTerm, setSearchTerm] = useState("");
+export const SearchBar = ({
+  intialValue = "",
+  onSearch,
+  searchOnKeyDown = true,
+}: Props) => {
+  const [searchTerm, setSearchTerm] = useState<string>(intialValue || "");
 
   useEffect(() => {
     if (searchOnKeyDown) {
