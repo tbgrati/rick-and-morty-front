@@ -63,7 +63,7 @@ export const CharacterDetailPage = () => {
                   <h2 className="font-semibold mb-2 text-gray-300">
                     Appeared in:
                   </h2>
-                  <div className="max-h-120 flex flex-col overflow-y-auto pr-2 scrollbar mr-2 gap-y-1">
+                  <div className="max-h-170 flex flex-col overflow-y-auto pr-2 scrollbar mr-2 gap-y-1">
                     {loadingEpisode ? (
                       <span className="text-sm text-gray-400">Loading...</span>
                     ) : errorEpisode ? (
