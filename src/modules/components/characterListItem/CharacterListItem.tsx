@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { EpisodeLink } from "../episodeLink/EpisodeLink.tsx";
 import { Episode } from "../../core/types/Episode.ts";
-import { useGetMultipleEpisodes } from "../../api/hooks/useGetMultipleEpisodes.ts";
 import { LocationLink } from "../locationLink/LocationLink.tsx";
 import { StatusChip } from "../statusChip/StatusChip.tsx";
 import { Character } from "../../core/types/Character.ts";
@@ -10,17 +9,18 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 type Props = {
   character?: Character;
+  episodes?: Episode[];
   loading?: boolean;
+  loadingEpisodes?: boolean;
 };
 
-export const CharacterListItem = ({ character, loading = false }: Props) => {
+export const CharacterListItem = ({
+  character,
+  loading = false,
+  episodes = [],
+  loadingEpisodes = false,
+}: Props) => {
   if (loading || !character) return <CharacterListItemSkeleton />;
-
-  const {
-    episodes: episodeData = [],
-    loading: loadingEpisodes,
-    error,
-  } = useGetMultipleEpisodes(character.episode);
 
   return (
     <div
@@ -61,17 +61,10 @@ export const CharacterListItem = ({ character, loading = false }: Props) => {
         <div className="max-h-20 flex flex-col overflow-y-auto pr-2 scrollbar mr-2 gap-y-1">
           {loadingEpisodes ? (
             <Skeleton count={4} />
-          ) : error ? (
-            <span className="text-sm text-red-400">Error loading episodes</span>
           ) : (
-            episodeData
-              .filter(
-                (episode: Episode | undefined) =>
-                  episode && episode.id && episode.url,
-              )
-              .map((episode: Episode) => (
-                <EpisodeLink key={episode.id} episode={episode} />
-              ))
+            episodes?.map((episode: Episode) => (
+              <EpisodeLink key={episode.id} episode={episode} />
+            ))
           )}
         </div>
       </div>

@@ -1,6 +1,8 @@
 import { Character } from "../../core/types/Character.ts";
 import { CharacterGridItem } from "../characterGridItem/CharacterGridItem.tsx";
 import { CharacterListItem } from "../characterListItem/CharacterListItem.tsx";
+import { useGetMultipleEpisodes } from "../../api/hooks/useGetMultipleEpisodes.ts";
+import { Episode } from "../../core/types/Episode.ts";
 
 type Props = {
   characters: Character[];
@@ -13,6 +15,16 @@ export const CharacterItems = ({
   isGridView = false,
   loading = false,
 }: Props) => {
+  const episodeIds = Array.from(
+    new Set(characters.flatMap((character) => character.episode)),
+  );
+  const { episodes = [], loading: loadingEpisodes } =
+    episodeIds.length > 0
+      ? useGetMultipleEpisodes(episodeIds)
+      : { episodes: [], loading: false };
+
+  const episodeMap = Object.fromEntries(episodes.map((ep) => [ep.id, ep]));
+
   const SkeletonItems = () => (
     <div
       className={
@@ -40,15 +52,25 @@ export const CharacterItems = ({
       }
     >
       {loading && <SkeletonItems />}
-      {!loading && characters && characters.length > 0 ? (
+      {!loading && characters.length > 0 ? (
         characters.map((character) =>
           isGridView ? (
             <CharacterGridItem key={character.id} character={character} />
           ) : (
-            <CharacterListItem key={character.id} character={character} />
+            <CharacterListItem
+              key={character.id}
+              character={character}
+              episodes={character.episode
+                .map((epUrl) => {
+                  const id = epUrl.split("/").pop();
+                  return id ? episodeMap[id] : undefined;
+                })
+                .filter((ep): ep is Episode => Boolean(ep))}
+              loadingEpisodes={loadingEpisodes}
+            />
           ),
         )
-      ) : !loading && (!characters || characters.length === 0) ? (
+      ) : !loading ? (
         <div className="text-center text-lg font-semibold text-gray-600 mt-5">
           No characters found
         </div>
