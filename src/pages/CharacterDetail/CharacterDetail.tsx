@@ -34,7 +34,7 @@ export const CharacterDetailPage = () => {
             {character?.episode ? (
               <Episodes episodeUrls={character.episode} />
             ) : (
-              <Skeleton count={5} />
+              <Skeleton width={360} height={56} count={10} />
             )}
             <CharacterDetailCard loading={loading} character={character} />
           </div>
