@@ -13,15 +13,6 @@ export const EpisodeListItem = ({ episode }: { episode: Episode }) => {
       {/* Episode Details */}
       <div className="flex flex-col gap-y-2">
         <h2 className="text-sm flex items-center font-semibold">
-          <span
-            className={`inline-block w-2 h-2 mr-2 rounded-full ${
-              episode.air_date?.toLowerCase() === "alive"
-                ? "bg-green-500"
-                : episode.air_date?.toLowerCase() === "dead"
-                  ? "bg-red-500"
-                  : "bg-gray-500"
-            }`}
-          ></span>
           {episode.air_date}
         </h2>
         <div className="flex flex-row gap-x-1">

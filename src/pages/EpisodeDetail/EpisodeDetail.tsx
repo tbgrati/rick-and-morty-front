@@ -4,17 +4,13 @@ import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultiple
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Header } from "../../modules/components/header/Header.tsx";
-import { Loader } from "../../modules/components/loader/Loader.tsx";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const EpisodeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const url = `/episode/${id}`;
-  const { episode, loading, error } = useGetEpisode(url);
-  const {
-    characters,
-    loading: characterLoading,
-    error: characterError,
-  } = useGetMultipleCharacters(episode?.characters || []);
+  const { episode, loading } = useGetEpisode(url);
 
   useEffect(() => {
     if (episode?.name) {
@@ -22,49 +18,72 @@ export const EpisodeDetailPage = () => {
     }
   }, [episode]);
 
-  if (loading) return <span>Loading...</span>;
-  if (error) return <span>Error</span>;
-
   return (
     <div>
       <Header />
       <div className="flex flex-col w-3/5 items-center mx-auto py-10 bg-primary-500  border-ram-blue-700 gap-y-6 rounded-lg mt-10">
-        {/* Title Section */}
         <div className="w-full px-6 ">
           <h1 className="font-bold text-5xl border-b-1">
-            {episode?.name} ({episode?.episode})
+            {loading ? (
+              <Skeleton width={300} height={48} />
+            ) : (
+              `${episode?.name} (${episode?.episode})`
+            )}
           </h1>
         </div>
-        <h2>Aired on: {episode?.air_date}</h2>
+        <h2>
+          {loading ? (
+            <Skeleton width={200} height={24} />
+          ) : (
+            `Aired on: ${episode?.air_date}`
+          )}
+        </h2>
         <div className={"w-full px-6"}>
           <h2 className={"font-semibold mb-5"}>
-            Characters that appear in this episode:
+            {loading ? (
+              <Skeleton width={250} height={24} />
+            ) : (
+              "Characters that appear in this episode:"
+            )}
           </h2>
           <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-            {characterLoading ? (
-              <span>
-                <Loader />
-              </span>
-            ) : characterError ? (
-              <span>Error: {characterError}</span>
+            {loading ? (
+              <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                {[...Array(8)].map(() => (
+                  <CharacterGridItem loading={true} />
+                ))}
+              </div>
             ) : (
-              <>
-                {characters?.length > 0 ? (
-                  characters
-                    .filter(
-                      (character) => character && character.id && character.url,
-                    )
-                    .map((character) => (
-                      <CharacterGridItem character={character} />
-                    ))
-                ) : (
-                  <span>No characters found</span>
-                )}
-              </>
+              <Characters characterUrls={episode.characters} />
             )}
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const Characters = ({ characterUrls }: { characterUrls: string[] }) => {
+  const { characters, loading } = useGetMultipleCharacters(characterUrls);
+
+  if (loading)
+    return (
+      <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+        {[...Array(6)].map(() => (
+          <CharacterGridItem loading={true} />
+        ))}
+      </div>
+    );
+
+  return (
+    <>
+      {characters?.length > 0 ? (
+        characters.map((character) => (
+          <CharacterGridItem character={character} />
+        ))
+      ) : (
+        <span>No characters found</span>
+      )}
+    </>
   );
 };

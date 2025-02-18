@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { ImageButton } from "../imageButton/ImageButton.tsx";
 import { SearchBar } from "../searchBar/SearchBar.tsx";
 import IconButton from "../iconButton/IconButton.tsx";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaHome } from "react-icons/fa";
 export const Header = () => {
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
@@ -29,13 +28,14 @@ export const Header = () => {
         variant="secondary"
         className="mr-auto"
       />
-      <div className="flex justify-end items-center w-1/3 gap-x-10 mr-10">
-        <div className="w-1/2">
-          <SearchBar onSearch={handleSearch} searchOnKeyDown={false} />
-        </div>
-        <ImageButton
-          imageUrl="https://media.tenor.com/BgR83Df82t0AAAAj/portal-rick-and-morty.gif"
+      <div className="flex justify-end items-center w-1/5 gap-x-5 mr-5">
+        <SearchBar onSearch={handleSearch} searchOnKeyDown={false} />
+        <IconButton
+          icon={<FaHome size={24} />}
+          size="medium"
+          rounded="full"
           onClick={handleNavigate("/")}
+          variant="secondary"
         />
       </div>
     </div>

@@ -19,7 +19,7 @@ export const CharacterGridItem = ({ character, loading = false }: Props) => {
         alt="Character"
         className="w-full h-48 object-cover"
       />
-      {/* Details section below */}
+      {/* Details section */}
       <div className="p-4 flex flex-col gap-2">
         <Link to={`/character/${character.id}`}>
           <h1 className="font-bold text-2xl hover:text-orange-500">
@@ -43,8 +43,7 @@ export const CharacterGridItem = ({ character, loading = false }: Props) => {
     </div>
   );
 };
-
-export const CharacterGridItemSkeleton = () => {
+const CharacterGridItemSkeleton = () => {
   return (
     <div className="max-w-80 max-h-95 rounded-lg bg-primary-400 overflow-hidden transition-transform duration-200 ease-in-out transform hover:scale-105 shadow-md">
       <Skeleton width={320} height={192} borderRadius={0} />

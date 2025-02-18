@@ -1,20 +1,16 @@
 import { Header } from "../../modules/components/header/Header.tsx";
-import { Loader } from "../../modules/components/loader/Loader.tsx";
 import { CharacterGridItem } from "../../modules/components/characterGridItem/CharacterGridItem.tsx";
 import { useParams } from "react-router-dom";
 import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultipleCharacters.ts";
 import { useEffect } from "react";
 import { useGetLocation } from "../../modules/api/hooks/useGetLocation.ts";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const LocationDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const url = `/location/${id}`;
-  const { location, loading, error } = useGetLocation(url);
-  const {
-    characters,
-    loading: characterLoading,
-    error: characterError,
-  } = useGetMultipleCharacters(location?.residents || []);
+  const { location, loading } = useGetLocation(url);
 
   useEffect(() => {
     if (location?.name) {
@@ -22,49 +18,70 @@ export const LocationDetailPage = () => {
     }
   }, [location]);
 
-  if (loading) return <span>Loading...</span>;
-  if (error) return <span>Error</span>;
-
   return (
     <div>
       <Header />
-      <div className="flex flex-col w-3/5 items-center mx-auto py-10 bg-primary-500  border-ram-blue-700 gap-y-6 rounded-lg mt-10">
-        {/* Title Section */}
+      <div className="flex flex-col w-3/5 items-center mx-auto py-10 bg-primary-500 border-ram-blue-700 gap-y-6 rounded-lg mt-10">
         <div className="w-full px-6 flex flex-col gap-y-2">
-          <h1 className="font-bold text-5xl border-b-1">{location.name}</h1>
+          <h1 className="font-bold text-5xl border-b-1">
+            {loading ? <Skeleton width={300} height={48} /> : location?.name}
+          </h1>
           <div className="flex flex-row gap-x-1">
             <h2 className="text-gray-300 font-semibold">Type:</h2>
-            <h2>{location.type}</h2>
+            <h2>
+              {loading ? <Skeleton width={150} height={24} /> : location?.type}
+            </h2>
           </div>
-          <h2>{location.dimension}</h2>
-        </div>
-        <div className={"w-full px-6"}>
-          <h2 className={"font-semibold mb-5"}>Residents:</h2>
-          <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-            {characterLoading ? (
-              <span>
-                <Loader />
-              </span>
-            ) : characterError ? (
-              <span>Error: {characterError}</span>
+          <h2>
+            {loading ? (
+              <Skeleton width={200} height={24} />
             ) : (
-              <>
-                {characters?.length > 0 ? (
-                  characters
-                    .filter(
-                      (character) => character && character.id && character.url,
-                    )
-                    .map((character) => (
-                      <CharacterGridItem character={character} />
-                    ))
-                ) : (
-                  <span>No characters found</span>
-                )}
-              </>
+              location?.dimension
+            )}
+          </h2>
+        </div>
+        <div className="w-full px-6">
+          <h2 className="font-semibold mb-5">
+            {loading ? <Skeleton width={250} height={24} /> : "Residents:"}
+          </h2>
+          <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+            {loading ? (
+              <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                {[...Array(8)].map((_, index) => (
+                  <CharacterGridItem loading={true} key={index} />
+                ))}
+              </div>
+            ) : (
+              <Characters characterUrls={location.residents} />
             )}
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const Characters = ({ characterUrls }: { characterUrls: string[] }) => {
+  const { characters, loading } = useGetMultipleCharacters(characterUrls);
+
+  if (loading)
+    return (
+      <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+        {[...Array(6)].map(() => (
+          <CharacterGridItem loading={true} />
+        ))}
+      </div>
+    );
+
+  return (
+    <>
+      {characters?.length > 0 ? (
+        characters.map((character) => (
+          <CharacterGridItem character={character} />
+        ))
+      ) : (
+        <span>No characters found</span>
+      )}
+    </>
   );
 };
