@@ -5,7 +5,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 
 function App() {
   return (
-    <SkeletonTheme baseColor={"#36393e"} highlightColor={"#424549"}>
+    <SkeletonTheme baseColor="#36393e" highlightColor="#424549">
       <RouterProvider router={router} />
     </SkeletonTheme>
   );

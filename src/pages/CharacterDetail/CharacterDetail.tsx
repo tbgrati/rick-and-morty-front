@@ -34,7 +34,7 @@ export const CharacterDetailPage = () => {
             {character?.episode ? (
               <Episodes episodeUrls={character.episode} />
             ) : (
-              <Skeleton width={360} height={56} count={10} />
+              <Skeleton width={680} height={56} count={10} />
             )}
             <CharacterDetailCard loading={loading} character={character} />
           </div>
@@ -51,7 +51,7 @@ const Episodes = ({ episodeUrls }: { episodeUrls: string[] }) => {
     error: errorEpisode,
   } = useGetMultipleEpisodes(episodeUrls);
 
-  if (loadingEpisode) return <Skeleton width={360} height={56} count={10} />;
+  if (loadingEpisode) return <Skeleton width={660} height={56} count={10} />;
   if (errorEpisode) return <span>Error loading episodes</span>;
   if (episodeData.length === 0) return <span>No episodes available</span>;
 
