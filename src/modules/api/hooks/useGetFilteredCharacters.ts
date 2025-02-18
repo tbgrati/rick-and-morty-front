@@ -1,5 +1,5 @@
 import { useGet } from "./useGet.ts";
-import { getAllCharacters } from "../utils/routes.ts";
+import { getCharacters } from "../utils/routes.ts";
 import { Character } from "../../core/types/Character.ts";
 
 export const useGetFilteredCharacters = (
@@ -7,7 +7,7 @@ export const useGetFilteredCharacters = (
   filters?: Record<string, string | number>,
 ) => {
   // Base URL with pagination
-  const baseUrl = `/${getAllCharacters}/?page=${page}`;
+  const baseUrl = `/${getCharacters}/?page=${page}`;
 
   // Convert filters to query params
   let filterQuery = "";
