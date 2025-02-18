@@ -9,7 +9,6 @@ export const species = [
   "Disease",
   "Robot",
   "Cronenberg",
-  "Planet",
 ];
 export const genders = ["Female", "Male", "Genderless", "Unknown"];
 

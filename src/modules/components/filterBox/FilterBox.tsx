@@ -1,7 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import { genders, species, status } from "../../core/types/Categories.ts";
+import Chip from "../chip/Chip.tsx";
 
-export const FilterBox = () => {
+type Props = {
+  onChange: () => void;
+};
+
+export const FilterBox = ({ onChange }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const toggleFilter = (category: string, value: string) => {
@@ -13,7 +18,7 @@ export const FilterBox = () => {
     } else {
       newParams.set(category, value);
     }
-
+    onChange();
     setSearchParams(newParams);
   };
 
@@ -24,26 +29,23 @@ export const FilterBox = () => {
   ) => (
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold">{title}</h1>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 gap-y-4">
         {options.map((option) => (
-          <button
+          <Chip
             key={option}
-            className={`px-3 py-1 rounded-md border ${
-              searchParams.get(category) === option
-                ? "bg-orange-500 text-white"
-                : "bg-primary-500"
-            }`}
+            text={option}
+            variant={
+              searchParams.get(category) === option ? "active" : "primary"
+            }
             onClick={() => toggleFilter(category, option)}
-          >
-            {option}
-          </button>
+          />
         ))}
       </div>
     </div>
   );
 
   return (
-    <div className="p-4 border rounded-md flex flex-col gap-4">
+    <div className="p-4 rounded-lg  flex flex-col gap-4 sticky top-10 bg-primary-500">
       {renderFilters("Species", "species", species)}
       {renderFilters("Gender", "gender", genders)}
       {renderFilters("Status", "status", status)}

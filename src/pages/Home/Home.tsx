@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { useGetFilteredCharacters } from "../../modules/api/hooks/useGetFilteredCharacters.ts";
 import IconButton from "../../modules/components/iconButton/IconButton.tsx";
-import { CharacterListItem } from "../../modules/components/characterListItem/CharacterListItem.tsx";
 import { SearchBar } from "../../modules/components/searchBar/SearchBar.tsx";
 import { useSearchParams } from "react-router-dom";
-import { Loader } from "../../modules/components/loader/Loader.tsx";
-import { CharacterGridItem } from "../../modules/components/characterGridItem/CharacterGridItem.tsx";
 import {
   FaThList,
   FaGripHorizontal,
@@ -13,6 +10,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { FilterBox } from "../../modules/components/filterBox/FilterBox.tsx";
+import { CharacterItems } from "../../modules/components/characterItems/CharacterItems.tsx";
 
 export const HomePage = () => {
   document.title = `Home - Rick and Morty`;
@@ -77,58 +75,15 @@ export const HomePage = () => {
       </div>
 
       {/* Characters Display and Filter Box*/}
-      <div className={"flex flex-row w-full gap-x-4"}>
+      <div className={"flex flex-row w-full gap-x-8"}>
         <div className={"max-w-60"}>
-          <FilterBox />
+          <FilterBox onChange={() => setPage(1)} />
         </div>
-        <div
-          className={
-            isGridView
-              ? "grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] w-full"
-              : "w-full flex flex-col gap-y-6 w-full"
-          }
-        >
-          {loading && <Loader />}
-          {!loading && error && (
-            <div className="text-center text-lg font-semibold text-gray-600 mt-5">
-              No characters found
-            </div>
-          )}
-          {!loading && !error && characters && characters.length > 0
-            ? characters.map((character) =>
-                isGridView ? (
-                  <CharacterGridItem
-                    key={character.id}
-                    url={character.url}
-                    episodes={character.episode}
-                    image={character.image}
-                    name={character.name}
-                    origin={character.origin}
-                    status={character.status}
-                    species={character.species}
-                    type={character.type}
-                  />
-                ) : (
-                  <CharacterListItem
-                    key={character.id}
-                    url={character.url}
-                    episodes={character.episode}
-                    image={character.image}
-                    name={character.name}
-                    origin={character.origin}
-                    status={character.status}
-                    species={character.species}
-                    type={character.type}
-                  />
-                ),
-              )
-            : !loading &&
-              !error && (
-                <div className="text-center text-lg font-semibold text-gray-600 mt-5">
-                  No characters found
-                </div>
-              )}
-        </div>
+        <CharacterItems
+          characters={error ? [] : characters}
+          loading={loading}
+          isGridView={isGridView}
+        />
       </div>
       {/* Pagination Controls */}
       {error ? null : (
