@@ -2,7 +2,11 @@ import { useSearchParams } from "react-router-dom";
 import { genders, species, status } from "../../core/types/Categories.ts";
 import Chip from "../chip/Chip.tsx";
 
-export const FilterBox = () => {
+type Props = {
+  onChange: () => void;
+};
+
+export const FilterBox = ({ onChange }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const toggleFilter = (category: string, value: string) => {
@@ -14,7 +18,7 @@ export const FilterBox = () => {
     } else {
       newParams.set(category, value);
     }
-
+    onChange();
     setSearchParams(newParams);
   };
 

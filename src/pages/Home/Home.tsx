@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetFilteredCharacters } from "../../modules/api/hooks/useGetFilteredCharacters.ts";
 import IconButton from "../../modules/components/iconButton/IconButton.tsx";
 import { SearchBar } from "../../modules/components/searchBar/SearchBar.tsx";
@@ -22,16 +22,6 @@ export const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState(queryName);
   const [isGridView, setIsGridView] = useState(false);
   const { ...otherFilters } = Object.fromEntries(searchParams.entries());
-  const prevFiltersRef = useRef(otherFilters); // To reset pages on filter change, not the best solution
-
-  useEffect(() => {
-    if (
-      JSON.stringify(prevFiltersRef.current) !== JSON.stringify(otherFilters)
-    ) {
-      setPage(1);
-      prevFiltersRef.current = otherFilters;
-    }
-  }, [otherFilters]);
 
   const { characters, loading, error, totalPages } = useGetFilteredCharacters(
     page,
@@ -87,7 +77,7 @@ export const HomePage = () => {
       {/* Characters Display and Filter Box*/}
       <div className={"flex flex-row w-full gap-x-8"}>
         <div className={"max-w-60"}>
-          <FilterBox />
+          <FilterBox onChange={() => setPage(1)} />
         </div>
         <CharacterItems
           characters={error ? [] : characters}
