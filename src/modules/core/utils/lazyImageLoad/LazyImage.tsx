@@ -9,6 +9,13 @@ type Props = {
 
 export const LazyImage = ({ src, alt, className }: Props) => {
   return (
-    <LazyLoadImage src={src} alt={alt} className={className} effect="blur" />
+    <LazyLoadImage
+      src={src}
+      alt={alt}
+      className={className}
+      effect="blur"
+      wrapperClassName={className}
+      draggable={false}
+    />
   );
 };
