@@ -1,2 +1,2 @@
-export const getAllCharacters = "/character";
-export const getAllLocations = "/location";
+export const getCharacters = "/character";
+export const getEpisodes = "/episode";
