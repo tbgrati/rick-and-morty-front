@@ -11,7 +11,7 @@ export const EpisodeLink = ({ episode, className }: Props) => {
     <div>
       <Link
         to={`/episode/${episode.id}`}
-        className={`text-sm text-blue-400 font-semibold hover:text-orange-500 text-left hover:cursor-pointer ${className}`}
+        className={`text-sm text-ram-blue-500 font-semibold hover:text-orange-500 text-left hover:cursor-pointer ${className}`}
       >
         {episode.name} ({episode.episode})
       </Link>

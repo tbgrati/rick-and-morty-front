@@ -33,7 +33,6 @@ export interface ChipProps
 const Chip: React.FC<ChipProps> = ({
   text,
   variant,
-  size,
   rounded,
   className,
   ...rest
@@ -41,7 +40,7 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <button
       {...rest}
-      className={clsx(chipVariant({ variant, size, rounded }), className)}
+      className={clsx(chipVariant({ variant, rounded }), className)}
     >
       {text}
     </button>

@@ -55,17 +55,7 @@ export const LocationDetailPage = () => {
                       (character) => character && character.id && character.url,
                     )
                     .map((character) => (
-                      <CharacterGridItem
-                        key={character.id}
-                        url={character.url}
-                        episodes={character.episode}
-                        image={character.image}
-                        name={character.name}
-                        origin={character.origin}
-                        status={character.status}
-                        species={character.species}
-                        type={character.type}
-                      />
+                      <CharacterGridItem character={character} />
                     ))
                 ) : (
                   <span>No characters found</span>

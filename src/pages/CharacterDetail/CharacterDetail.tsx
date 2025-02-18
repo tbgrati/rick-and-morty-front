@@ -2,7 +2,6 @@ import { ReactNode, useEffect } from "react";
 import { useGetCharacter } from "../../modules/api/hooks/useGetCharacter.ts";
 import { useParams } from "react-router-dom";
 import { useGetMultipleEpisodes } from "../../modules/api/hooks/useGetMultipleEpisodes.ts";
-import { Episode } from "../../modules/core/types/Episode.ts";
 import { EpisodeListItem } from "../../modules/components/episodeListItem/EpisodeListItem.tsx";
 import { Header } from "../../modules/components/header/Header.tsx";
 import { Loader } from "../../modules/components/loader/Loader.tsx";
@@ -13,11 +12,6 @@ export const CharacterDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const url = `/character/${id}`;
   const { character, loading, error } = useGetCharacter(url);
-  const {
-    episodes: episodeData = [],
-    loading: loadingEpisode,
-    error: errorEpisode,
-  } = useGetMultipleEpisodes(character?.episode || []);
 
   const getDetailValue = (
     label: string,
@@ -52,38 +46,14 @@ export const CharacterDetailPage = () => {
         ) : (
           <div className="w-full px-6 gap-y-20">
             <div>
-              <h1 className="font-bold text-6xl border-b-1">
+              <h1 className="font-bold text-6xl border-b-1 mb-6">
                 {character?.name}
               </h1>
             </div>
             {/* Content Section: Episodes & Details */}
             <div className="flex w-full">
               {/* Left Section: Episodes */}
-              <div className="flex-1">
-                <div className="flex flex-col">
-                  <h2 className="font-semibold mb-2 text-gray-300">
-                    Appeared in:
-                  </h2>
-                  <div className="max-h-170 flex flex-col overflow-y-auto pr-2 scrollbar mr-2 gap-y-1">
-                    {loadingEpisode ? (
-                      <span className="text-sm text-gray-400">Loading...</span>
-                    ) : errorEpisode ? (
-                      <span className="text-sm text-red-400">
-                        Error loading episodes
-                      </span>
-                    ) : (
-                      episodeData
-                        .filter(
-                          (episode: Episode | undefined) =>
-                            episode && episode.id && episode.url,
-                        )
-                        .map((episode: Episode) => (
-                          <EpisodeListItem key={episode.id} episode={episode} />
-                        ))
-                    )}
-                  </div>
-                </div>
-              </div>
+              <Episodes episodeUrls={character.episode} />
               {/* Right Section: Image & Details */}
               <div className="flex-1 flex justify-end">
                 <div className="p-1 border-2 rounded-md border-ram-blue-700 w-full max-w-sm">
@@ -130,6 +100,29 @@ export const CharacterDetailPage = () => {
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+const Episodes = ({ episodeUrls }: { episodeUrls: string[] }) => {
+  const {
+    episodes: episodeData = [],
+    loading: loadingEpisode,
+    error: errorEpisode,
+  } = useGetMultipleEpisodes(episodeUrls);
+
+  if (loadingEpisode) return <Loader />;
+  if (errorEpisode) return <span>Error loading episodes</span>;
+  if (episodeData.length === 0) return <span>No episodes available</span>;
+
+  return (
+    <div className="flex-1">
+      <h2 className="font-semibold mb-2 text-gray-300">Appeared in:</h2>
+      <div className="max-h-170 flex flex-col overflow-y-auto pr-2 scrollbar mr-2 gap-y-1">
+        {episodeData.map((episode) => (
+          <EpisodeListItem key={episode.id} episode={episode} />
+        ))}
       </div>
     </div>
   );
