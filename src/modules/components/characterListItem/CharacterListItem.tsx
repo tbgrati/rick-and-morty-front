@@ -6,6 +6,7 @@ import { StatusChip } from "../statusChip/StatusChip.tsx";
 import { Character } from "../../core/types/Character.ts";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { LazyImage } from "../../core/utils/lazyImageLoad/LazyImage.tsx";
 
 type Props = {
   character?: Character;
@@ -29,7 +30,7 @@ export const CharacterListItem = ({
     >
       {/* Left Section: Image & Details */}
       <div className="flex flex-row gap-4">
-        <img
+        <LazyImage
           src={character.image}
           alt="Character"
           className="w-36 h-36 object-cover"

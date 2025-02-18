@@ -4,6 +4,7 @@ import { StatusChip } from "../statusChip/StatusChip.tsx";
 import { Character } from "../../core/types/Character.ts";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { LazyImage } from "../../core/utils/lazyImageLoad/LazyImage.tsx";
 
 type Props = {
   character?: Character;
@@ -14,7 +15,7 @@ export const CharacterGridItem = ({ character, loading = false }: Props) => {
 
   return (
     <div className="max-w-80 max-h-95 rounded-lg bg-primary-400 overflow-hidden transition-transform duration-200 ease-in-out transform hover:scale-105 shadow-md">
-      <img
+      <LazyImage
         src={character.image}
         alt="Character"
         className="w-full h-48 object-cover"
