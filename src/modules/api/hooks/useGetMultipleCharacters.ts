@@ -1,5 +1,5 @@
 import { useGet } from "./useGet.ts";
-import { Character } from "../../core/types/Character.ts";
+import { Character } from "../../character/types/Character.ts";
 import { getCharacters } from "../utils/routes.ts";
 
 export const useGetMultipleCharacters = (characters: string[]) => {

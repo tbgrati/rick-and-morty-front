@@ -1,5 +1,5 @@
 import { useGet } from "./useGet.ts";
-import { Episode } from "../../core/types/Episode.ts";
+import { Episode } from "../../episode/types/Episode.ts";
 import { getEpisodes } from "../utils/routes.ts";
 
 export const useGetMultipleEpisodes = (episodes: string[]) => {

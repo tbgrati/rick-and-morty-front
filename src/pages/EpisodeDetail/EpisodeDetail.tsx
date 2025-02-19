@@ -1,22 +1,24 @@
 import { useGetEpisode } from "../../modules/api/hooks/useGetEpisode.ts";
-import { CharacterGridItem } from "../../modules/components/characterGridItem/CharacterGridItem.tsx";
+import { CharacterGridItem } from "../../modules/character/components/CharacterGridItem/CharacterGridItem.tsx";
 import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultipleCharacters.ts";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { Header } from "../../modules/components/header/Header.tsx";
+import { Header } from "../../modules/core/components/Header/Header.tsx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { NotFoundPage } from "../NotFound/NotFound.tsx";
 
 export const EpisodeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const url = `/episode/${id}`;
-  const { episode, loading } = useGetEpisode(url);
+  const { episode, loading, error } = useGetEpisode(id!);
 
   useEffect(() => {
     if (episode?.name) {
       document.title = `${episode.name} - Rick and Morty`;
     }
   }, [episode]);
+
+  if (error) return <NotFoundPage />;
 
   return (
     <div>
@@ -69,7 +71,7 @@ const Characters = ({ characterUrls }: { characterUrls: string[] }) => {
   if (loading)
     return (
       <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-        {[...Array(6)].map(() => (
+        {[...Array(8)].map(() => (
           <CharacterGridItem loading={true} />
         ))}
       </div>

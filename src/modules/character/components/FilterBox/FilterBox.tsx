@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
-import { genders, species, status } from "../../core/types/Categories.ts";
-import Chip from "../chip/Chip.tsx";
+import { genders, species, status } from "../../types/Categories.ts";
+import Chip from "../../../core/components/Chip/Chip.tsx";
 
 type Props = {
   onChange: () => void;
