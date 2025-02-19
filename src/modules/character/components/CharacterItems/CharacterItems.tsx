@@ -1,8 +1,8 @@
-import { Character } from "../../core/types/Character.ts";
-import { CharacterGridItem } from "../characterGridItem/CharacterGridItem.tsx";
-import { CharacterListItem } from "../characterListItem/CharacterListItem.tsx";
-import { useGetMultipleEpisodes } from "../../api/hooks/useGetMultipleEpisodes.ts";
-import { Episode } from "../../core/types/Episode.ts";
+import { Character } from "../../types/Character.ts";
+import { CharacterGridItem } from "../CharacterGridItem/CharacterGridItem.tsx";
+import { CharacterListItem } from "../CharacterListItem/CharacterListItem.tsx";
+import { useGetMultipleEpisodes } from "../../../api/hooks/useGetMultipleEpisodes.ts";
+import { Episode } from "../../../episode/types/Episode.ts";
 
 type Props = {
   characters: Character[];

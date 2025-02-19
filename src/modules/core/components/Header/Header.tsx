@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { SearchBar } from "../searchBar/SearchBar.tsx";
-import IconButton from "../iconButton/IconButton.tsx";
+import { SearchBar } from "../SearchBar/SearchBar.tsx";
+import IconButton from "../IconButton/IconButton.tsx";
 import { FaChevronLeft, FaHome } from "react-icons/fa";
 export const Header = () => {
   const navigate = useNavigate();

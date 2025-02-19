@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import { useGetCharacter } from "../../modules/api/hooks/useGetCharacter.ts";
 import { useParams } from "react-router-dom";
 import { useGetMultipleEpisodes } from "../../modules/api/hooks/useGetMultipleEpisodes.ts";
-import { EpisodeListItem } from "../../modules/components/episodeListItem/EpisodeListItem.tsx";
-import { Header } from "../../modules/components/header/Header.tsx";
-import { CharacterDetailCard } from "../../modules/components/characterDetailCard/CharacterDetailCard.tsx";
+import { EpisodeListItem } from "../../modules/episode/components/EpisodeListItem/EpisodeListItem.tsx";
+import { Header } from "../../modules/core/components/Header/Header.tsx";
+import { CharacterDetailCard } from "../../modules/character/components/CharacterDetailCard/CharacterDetailCard.tsx";
 import Skeleton from "react-loading-skeleton";
+import { NotFoundPage } from "../NotFound/NotFound.tsx";
 
 export const CharacterDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const url = `/character/${id}`;
-  const { character, loading, error } = useGetCharacter(url);
+  const { character, loading, error } = useGetCharacter(id!);
 
   useEffect(() => {
     if (character?.name) {
@@ -18,7 +18,7 @@ export const CharacterDetailPage = () => {
     }
   }, [character]);
 
-  if (error) return <span>Error</span>;
+  if (error) return <NotFoundPage />;
 
   return (
     <div>

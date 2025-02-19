@@ -1,4 +1,4 @@
-import { Episode } from "../../core/types/Episode.ts";
+import { Episode } from "../../types/Episode.ts";
 import { Link } from "react-router-dom";
 
 type Props = {

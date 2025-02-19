@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { LocationLink } from "../locationLink/LocationLink.tsx";
-import { Character } from "../../core/types/Character.ts";
+import { LocationLink } from "../LocationLink/LocationLink.tsx";
+import { Character } from "../../types/Character.ts";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 

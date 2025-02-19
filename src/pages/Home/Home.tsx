@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGetFilteredCharacters } from "../../modules/api/hooks/useGetFilteredCharacters.ts";
-import IconButton from "../../modules/components/iconButton/IconButton.tsx";
-import { SearchBar } from "../../modules/components/searchBar/SearchBar.tsx";
+import IconButton from "../../modules/core/components/IconButton/IconButton.tsx";
+import { SearchBar } from "../../modules/core/components/SearchBar/SearchBar.tsx";
 import { useSearchParams } from "react-router-dom";
 import {
   FaThList,
@@ -9,8 +9,8 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import { FilterBox } from "../../modules/components/filterBox/FilterBox.tsx";
-import { CharacterItems } from "../../modules/components/characterItems/CharacterItems.tsx";
+import { FilterBox } from "../../modules/character/components/FilterBox/FilterBox.tsx";
+import { CharacterItems } from "../../modules/character/components/CharacterItems/CharacterItems.tsx";
 
 export const HomePage = () => {
   document.title = `Home - Rick and Morty`;

@@ -1,22 +1,24 @@
-import { Header } from "../../modules/components/header/Header.tsx";
-import { CharacterGridItem } from "../../modules/components/characterGridItem/CharacterGridItem.tsx";
+import { Header } from "../../modules/core/components/Header/Header.tsx";
+import { CharacterGridItem } from "../../modules/character/components/CharacterGridItem/CharacterGridItem.tsx";
 import { useParams } from "react-router-dom";
 import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultipleCharacters.ts";
 import { useEffect } from "react";
 import { useGetLocation } from "../../modules/api/hooks/useGetLocation.ts";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { NotFoundPage } from "../NotFound/NotFound.tsx";
 
 export const LocationDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const url = `/location/${id}`;
-  const { location, loading } = useGetLocation(url);
+  const { location, loading, error } = useGetLocation(id!);
 
   useEffect(() => {
     if (location?.name) {
       document.title = `${location.name} - Rick and Morty`;
     }
   }, [location]);
+
+  if (error) return <NotFoundPage />;
 
   return (
     <div>
@@ -44,7 +46,7 @@ export const LocationDetailPage = () => {
           <h2 className="font-semibold mb-5">
             {loading ? <Skeleton width={250} height={24} /> : "Residents:"}
           </h2>
-          <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {loading ? (
               <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
                 {[...Array(8)].map((_, index) => (
@@ -64,10 +66,12 @@ export const LocationDetailPage = () => {
 const Characters = ({ characterUrls }: { characterUrls: string[] }) => {
   const { characters, loading } = useGetMultipleCharacters(characterUrls);
 
+  if (characterUrls.length === 0) return <h1>No characters reside here</h1>;
+
   if (loading)
     return (
       <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-        {[...Array(6)].map(() => (
+        {[...Array(8)].map(() => (
           <CharacterGridItem loading={true} />
         ))}
       </div>

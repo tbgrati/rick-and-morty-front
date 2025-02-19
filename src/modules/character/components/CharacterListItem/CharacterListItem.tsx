@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { EpisodeLink } from "../episodeLink/EpisodeLink.tsx";
-import { Episode } from "../../core/types/Episode.ts";
-import { LocationLink } from "../locationLink/LocationLink.tsx";
-import { StatusChip } from "../statusChip/StatusChip.tsx";
-import { Character } from "../../core/types/Character.ts";
+import { EpisodeLink } from "../../../episode/components/EpisodeLink/EpisodeLink.tsx";
+import { Episode } from "../../../episode/types/Episode.ts";
+import { LocationLink } from "../LocationLink/LocationLink.tsx";
+import { StatusChip } from "../StatusChip/StatusChip.tsx";
+import { Character } from "../../types/Character.ts";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { LazyImage } from "../../core/utils/lazyImageLoad/LazyImage.tsx";
+import { LazyImage } from "../../../core/utils/lazyImageLoad/LazyImage.tsx";
 
 type Props = {
   character?: Character;
