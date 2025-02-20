@@ -1,5 +1,4 @@
 import { useGetEpisode } from "../../modules/api/hooks/useGetEpisode.ts";
-import { CharacterGridItem } from "../../modules/character/components/CharacterGridItem/CharacterGridItem.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Header } from "../../modules/core/components/Header/Header.tsx";
@@ -48,17 +47,7 @@ export const EpisodeDetailPage = () => {
               "Characters that appear in this episode:"
             )}
           </h2>
-          <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-            {loading ? (
-              <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-                {[...Array(8)].map(() => (
-                  <CharacterGridItem loading={true} />
-                ))}
-              </div>
-            ) : (
-              <CharacterGridView characterUrls={episode.characters} />
-            )}
-          </div>
+          <CharacterGridView characterUrls={episode?.characters} />
         </div>
       </div>
     </div>

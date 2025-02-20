@@ -1,14 +1,17 @@
 import { useGetMultipleCharacters } from "../../../api/hooks/useGetMultipleCharacters.ts";
 import { CharacterGridItem } from "../CharacterGridItem/CharacterGridItem.tsx";
 
-export const CharacterGridView = ({
-  characterUrls,
-}: {
-  characterUrls: string[];
-}) => {
-  const { characters, loading } = useGetMultipleCharacters(characterUrls);
+type Props = {
+  characterUrls?: string[];
+};
 
-  if (characterUrls.length === 0) return <h1>No characters reside here</h1>;
+export const CharacterGridView = ({ characterUrls }: Props) => {
+  const shouldLoadCharacters = characterUrls && characterUrls.length > 0;
+  const { characters = [], loading } = shouldLoadCharacters
+    ? useGetMultipleCharacters(characterUrls || [])
+    : { characters: [], loading: false };
+
+  if (characterUrls?.length === 0) return <h1>No characters reside here</h1>;
 
   if (loading)
     return (
@@ -20,7 +23,7 @@ export const CharacterGridView = ({
     );
 
   return (
-    <>
+    <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
       {characters?.length > 0 ? (
         characters.map((character) => (
           <CharacterGridItem character={character} />
@@ -28,6 +31,6 @@ export const CharacterGridView = ({
       ) : (
         <span>No characters found</span>
       )}
-    </>
+    </div>
   );
 };

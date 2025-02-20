@@ -1,5 +1,4 @@
 import { Header } from "../../modules/core/components/Header/Header.tsx";
-import { CharacterGridItem } from "../../modules/character/components/CharacterGridItem/CharacterGridItem.tsx";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useGetLocation } from "../../modules/api/hooks/useGetLocation.ts";
@@ -46,17 +45,7 @@ export const LocationDetailPage = () => {
           <h2 className="font-semibold mb-5">
             {loading ? <Skeleton width={250} height={24} /> : "Residents:"}
           </h2>
-          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-            {loading ? (
-              <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-                {[...Array(8)].map((_, index) => (
-                  <CharacterGridItem loading={true} key={index} />
-                ))}
-              </div>
-            ) : (
-              <CharacterGridView characterUrls={location.residents} />
-            )}
-          </div>
+          <CharacterGridView characterUrls={location?.residents} />
         </div>
       </div>
     </div>
