@@ -1,12 +1,12 @@
 import { useGetEpisode } from "../../modules/api/hooks/useGetEpisode.ts";
 import { CharacterGridItem } from "../../modules/character/components/CharacterGridItem/CharacterGridItem.tsx";
-import { useGetMultipleCharacters } from "../../modules/api/hooks/useGetMultipleCharacters.ts";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Header } from "../../modules/core/components/Header/Header.tsx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { NotFoundPage } from "../NotFound/NotFound.tsx";
+import { CharacterGridView } from "../../modules/character/components/CharacterGridView/CharacterGridView.tsx";
 
 export const EpisodeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -56,36 +56,11 @@ export const EpisodeDetailPage = () => {
                 ))}
               </div>
             ) : (
-              <Characters characterUrls={episode.characters} />
+              <CharacterGridView characterUrls={episode.characters} />
             )}
           </div>
         </div>
       </div>
     </div>
-  );
-};
-
-const Characters = ({ characterUrls }: { characterUrls: string[] }) => {
-  const { characters, loading } = useGetMultipleCharacters(characterUrls);
-
-  if (loading)
-    return (
-      <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
-        {[...Array(8)].map(() => (
-          <CharacterGridItem loading={true} />
-        ))}
-      </div>
-    );
-
-  return (
-    <>
-      {characters?.length > 0 ? (
-        characters.map((character) => (
-          <CharacterGridItem character={character} />
-        ))
-      ) : (
-        <span>No characters found</span>
-      )}
-    </>
   );
 };
